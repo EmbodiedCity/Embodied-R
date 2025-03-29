@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embodied-R</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #3182ce;
+            --secondary-color: #2c5282;
+            --accent-color: #4299e1;
+            --text-color: #2d3748;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fef9f9;
+            --highlight-border: #fadbd8;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        .dark {
+            --primary-color: #63b3ed;
+            --secondary-color: #90cdf4;
+            --accent-color: #4299e1;
+            --text-color: #e2e8f0;
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --border-color: #4a5568;
+            --highlight-bg: #3c2a2a;
+            --highlight-border: #742a2a;
+            --shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-self;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: var(--transition);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1a202c;
+            transition: var(--transition);
+        }
+
+        .content-container {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid var(--border-color);
+            color: #1a202c;
+            transition: var(--transition);
+            line-height: 1.3;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #1a202c;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .subsection-title {
+            font-size: 1.5rem;
+            color: #1a202c;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        p {
+            margin: 1rem 0;
+            font-size: 1.125rem;
+            text-align: justify;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2rem auto;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.01);
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .video-wrapper {
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .highlight {
+            color: #e53e3e;
+            font-weight: bold;
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--highlight-bg);
+            border: 1px solid var(--highlight-border);
+            border-radius: 0.5rem;
+            margin: 2.5rem 0;
+            transition: var(--transition);
+        }
+
+        strong {
+            color: var(--secondary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .question-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .question-box {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .question-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .question-box h3 {
+            color: #1a202c;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .question-box p {
+            font-size: 1.1rem;
+            text-align: left;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .question-box ul {
+            list-style-type: none;
+            padding-left: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-box li {
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .question-box li:hover {
+            background-color: rgba(66, 153, 225, 0.1);
+        }
+
+        .method-section img,
+        .experiment-section img {
+            max-width: 85%;
+            margin: 2.5rem auto;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+        .dark .main-title, .dark .section-title, .dark .subsection-title,
+        .dark .question-box h3 {
+            color: #f7fafc;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            padding: 0.75rem 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .dark .navbar {
+            background-color: rgba(26, 32, 44, 0.9);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1a202c;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .dark .logo {
+            color: #f7fafc;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: #1a202c;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .dark .nav-links a {
+            color: #f7fafc;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #1a202c;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .dark .mobile-menu-btn {
+            color: #f7fafc;
+        }
+
+        /* 动效样式 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--card-bg);
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0.5rem 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .content-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .main-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .subsection-title {
+                font-size: 1.3rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .video-container, 
+            .question-container {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-toggle,
+            .back-to-top {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-brain"></i>Embodied-R
+            </a>
+            <ul class="nav-links">
+                <li><a href="#abstract">Abstract</a></li>
+                <li><a href="#task">Tasks</a></li>
+                <li><a href="#method">Method</a></li>
+                <li><a href="#experiment">Experiment</a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <button class="theme-toggle" aria-label="Toggle dark/light mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div class="content-container">
+        <h1 class="main-title fade-in">Embodied-R: Activating Embodied Spatial Reasoning in Large Multimodal Models through Reinforcement Learning</h1>
+
+        <h2 id="abstract" class="section-title text-center fade-in">Abstract</h2>
+        <p class="fade-in">
+            Embodied spatial reasoning emphasizes the ability to interpret and interact with spatial information from the surrounding environment, serving as a foundation for various applications that bridge cyberspace and the physical world. Continuous visual perception in the form of videos is the most human-like embodied perception, upon which the development of reasoning abilities demonstrates strong generalization. Inspired by recent advances in reinforcement learning that have enhanced large language models' reasoning in mathematics and logic, we propose Embodied-R, the first large multimodal model specifically designed for embodied spatial reasoning. Our work introduces two key contributions: (1) We design an entropy-aware dynamic frame sparsification module and a semantic contextualizer that leverage the characteristics of visual perspectives during embodied movement to extract the continues perception, thereby accelerating both inference and training processes. (2) We introduce a multi-stage RL training framework that enhances LLMs' embodied spatial reasoning capabilities, allowing us to observe emergent embodied reasoning throughout the training process.
+        </p>
+
+        <h2 id="task" class="section-title text-center fade-in">Task of Embodied Reasoning</h2>
+        <p class="fade-in">
+            We focus on embodied reasoning tasks, with UrbanVideo Punch as an example for outdoor tasks and VSI Punch as an example for indoor tasks.
+        </p>
+        
+        <div class="question-container">
+            <div class="question-box">
+                <h3 class="text-center">Outdoor</h3>
+                <p>
+                    <strong>Question:</strong> Navigation Instruction given at initial position: [Observe around the square area, then fly towards the highway, then turn left and land on the roof of the building on the left]. You move according to a series of movement instructions. What are you doing now?
+                </p>
+                <ul class="mb-4">
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> A. I look around the square area.</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> B. I turn left and land on the roof of the building on the left.</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> C. I fly towards the road.</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> D. I fly over the park.</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> E. I land.</li>
+                </ul>
+            </div>
+            <div class="question-box">
+                <h3 class="text-center">Indoor</h3>
+                <p>
+                    <strong>Question:</strong> What will be the first-time appearance order of the following categories in the video: table, backpack, trash bin, lamp?
+                </p>
+                <ul class="mb-4">
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> A. table, backpack, trash bin, lamp</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> B. backpack, lamp, trash bin, table</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> C. lamp, table, trash bin, backpack</li>
+                    <li><i class="fas fa-circle mr-2 text-black-500 text-xs"></i> D. backpack, table, trash bin, lamp</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 视频并排显示区域 -->
+        <div class="video-container mt-8">
+            <div class="video-wrapper">
+                <h4 class="text-center text-lg font-semibold mb-3">Outdoor Task Video</h4>
+                <div class="video-aspect-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <video controls class="w-full shadow-lg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="source\1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            <div class="video-wrapper">
+                <h4 class="text-center text-lg font-semibold mb-3">Indoor Task Video</h4>
+                <div class="video-aspect-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <video controls class="w-full shadow-lg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="source\2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="method" class="section-title text-center fade-in">Method</h2>
+        <div class="method-section">
+            <p class="fade-in">
+                The model can be divided into two main components: perception and reasoning.
+            </p>
+            <p class="fade-in">
+                For perception, embodied environments often contain substantial redundant information, with significant changes in visual perspective primarily arising from actions such as rotation. To address this, we designed a keyframe selection module based on entropy-driven information gain, while considering the input token constraints of large models. This module effectively reduces inference time and the number of frames by over 50%. Subsequently, mimicking the perception process of agents in real-world scenarios, we adopt an incremental approach to describe the differences between current and historical observations, highlighting newly acquired information and extracting the information most relevant to the embodied environment and the current task. The extracted perceptual information is then passed to the reasoning model.
+            </p>
+            <p class="fade-in">
+                For reasoning, large language models (LLMs) can be trained using reinforcement learning methods such as GRPO. We utilize multiple-choice questions as the training data, as their answers are straightforward to validate. A multi-stage training schedule is designed to guide the model toward convergence at a more optimal state.
+            </p>
+            
+            <img src="source\3.jpg" alt="Method illustration" class="fade-in">
+        </div>
+
+        <h2 id="experiment" class="section-title text-center fade-in">Experiment</h2>
+        <div class="experiment-section">
+            <h3 class="subsection-title fade-in">Overall Performance</h3>
+            <p class="fade-in">
+                In the following results, the base models adopted by Embodied-R are: VLM: Qwen2.5-VL-72B, LLM: Qwen2.5-3B-Instruct. Experimental results demonstrate that the proposed reasoning-enhanced model outperforms large-scale multimodal models such as GPT-4o and Gemini-1.5-pro in video reasoning tasks.
+            </p>
+            
+            <img src="source\4.png" alt="Overall Performance">
+
+            <h3 class="subsection-title fade-in">Training Process</h3>
+            <p class="fade-in">
+                During training, format rewards are relatively easy to learn, while accuracy rewards typically require more epochs to converge.
+            </p>
+            
+            <img src="source\5.png" alt="Training Process">
+
+            <h3 class="subsection-title fade-in">OOD Performance</h3>
+            <p class="fade-in">
+                The resulting reasoning model exhibits strong performance not only on in-sample test sets but also demonstrates robust generalization to out-of-sample datasets. Within this framework, the reasoning LLM model achieves accuracy improvements under the same input conditions, both before and after joint training. For instance, in <strong>EgoSchema</strong>, accuracy increased from 0.55 to 0.69. In the Egocentric navigation task within <strong>MVBench</strong>, accuracy improved from 0.36 to 0.40.
+            </p>
+        </div>
+        <p class="highlight">
+            <strong class="text-red-600"><i class="fas fa-exclamation-circle mr-2"></i>We are currently organizing more detailed and comprehensive results, which are expected to be released within a week. Stay tuned!</strong>
+        </p>
+
+       
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const htmlElement = document.documentElement;
+        const themeIcon = document.querySelector('.theme-toggle i');
+        
+        // Check for system preference or saved preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // Back to top functionality
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 移动端菜单切换
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果在移动端，点击后关闭菜单
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // 滚动动效
+        function checkVisibility() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const staggerItems = document.querySelectorAll('.stagger-item');
+            
+            fadeElements.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+            
+            staggerItems.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, 100 * (index % 5)); // 每5个元素一组，错开显示时间
+                }
+            });
+        }
+
+        // 初始检查可见性
+        window.addEventListener('load', checkVisibility);
+        // 滚动时检查可见性
+        window.addEventListener('scroll', checkVisibility);
+    </script>
+</body>
+</html>
