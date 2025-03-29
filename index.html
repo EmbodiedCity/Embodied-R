@@ -11,10 +11,12 @@
     <style>
         :root {
             --primary-color: #3182ce;
+            --primary-color-rgb: 49, 130, 206;
             --secondary-color: #2c5282;
             --accent-color: #4299e1;
             --text-color: #2d3748;
             --bg-color: #f7fafc;
+            --bg-color-rgb: 247, 250, 252;
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
             --highlight-bg: #fef9f9;
@@ -25,15 +27,30 @@
 
         .dark {
             --primary-color: #63b3ed;
+            --primary-color-rgb: 99, 179, 237;
             --secondary-color: #90cdf4;
             --accent-color: #4299e1;
             --text-color: #e2e8f0;
             --bg-color: #1a202c;
+            --bg-color-rgb: 26, 32, 44;
             --card-bg: #2d3748;
             --border-color: #4a5568;
             --highlight-bg: #3c2a2a;
             --highlight-border: #742a2a;
             --shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 阅读进度条样式 */
+        .reading-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -163,6 +180,12 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            transition: var(--transition);
+        }
+        
+        .task-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
         .video-question-container {
@@ -174,6 +197,27 @@
         .question-section {
             margin-top: 1rem;
             flex-grow: 1;
+            transition: var(--transition);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: rgba(var(--bg-color-rgb, 247, 250, 252), 0.5);
+        }
+        
+        .question-section:hover {
+            background-color: rgba(var(--bg-color-rgb, 247, 250, 252), 0.8);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .question-section ul li {
+            transition: var(--transition);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-section ul li:hover {
+            background-color: rgba(var(--primary-color-rgb, 49, 130, 206), 0.1);
+            transform: translateX(5px);
         }
 
         .question-container {
@@ -491,6 +535,9 @@
     </style>
 </head>
 <body>
+    <!-- 阅读进度条 -->
+    <div class="reading-progress-bar" id="reading-progress"></div>
+    
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
@@ -785,10 +832,22 @@
             checkVisibility();
             checkFontAwesome();
             enforceTextCenter();
+            updateReadingProgress();
         });
         
         // 滚动时检查可见性
         window.addEventListener('scroll', checkVisibility);
+
+        // 阅读进度条功能
+        function updateReadingProgress() {
+            const progressBar = document.getElementById('reading-progress');
+            const totalHeight = document.body.scrollHeight - window.innerHeight;
+            const progress = (window.scrollY / totalHeight) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // 监听滚动事件以更新进度条
+        window.addEventListener('scroll', updateReadingProgress);
     </script>
 </body>
 </html>
