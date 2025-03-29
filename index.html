@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #3182ce;
@@ -36,7 +37,7 @@
         }
 
         body {
-            font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-self;
+            font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
             line-height: 1.8;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -44,7 +45,7 @@
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Noto Serif SC', serif;
+            font-family: 'Noto Serif SC', serif, 'SimHei', 'Microsoft YaHei', '黑体', '宋体';
             font-weight: 600;
             line-height: 1.4;
             color: #1a202c;
@@ -63,7 +64,7 @@
 
         .main-title {
             font-size: 2.5rem;
-            text-align: center;
+            text-align: center !important;
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
             border-bottom: 3px solid var(--border-color);
@@ -80,6 +81,11 @@
             margin-top: 3rem;
             margin-bottom: 1.5rem;
             transition: var(--transition);
+            text-align: center !important;
+        }
+
+        .text-center {
+            text-align: center !important;
         }
 
         .subsection-title {
@@ -186,6 +192,7 @@
             padding-bottom: 0.75rem;
             font-size: 1.5rem;
             transition: var(--transition);
+            text-align: center !important;
         }
 
         .question-box p {
@@ -219,57 +226,47 @@
             margin: 2.5rem auto;
         }
 
-        .theme-toggle {
+        .theme-toggle,
+        .back-to-top {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
             width: 3rem;
             height: 3rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
+            border: none;
             transition: var(--transition);
         }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
+        .theme-toggle {
+            bottom: 2rem;
+            left: 2rem;
         }
 
         .back-to-top {
-            position: fixed;
             bottom: 2rem;
-            left: 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            z-index: 1000;
+            right: 2rem;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
+            transform: translateY(20px);
         }
 
         .back-to-top.visible {
             opacity: 1;
             visibility: visible;
+            transform: translateY(0);
         }
 
+        .theme-toggle:hover,
         .back-to-top:hover {
-            transform: scale(1.1);
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
         }
 
         .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
@@ -483,9 +480,11 @@
 
     <button class="theme-toggle" aria-label="Toggle dark/light mode">
         <i class="fas fa-moon"></i>
+        <span class="fallback-icon" style="display:none;">🌙</span>
     </button>
     <button class="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
+        <span class="fallback-icon" style="display:none;">⬆️</span>
     </button>
 
     <div class="content-container">
@@ -597,6 +596,36 @@
         const themeToggle = document.querySelector('.theme-toggle');
         const htmlElement = document.documentElement;
         const themeIcon = document.querySelector('.theme-toggle i');
+        const themeIconFallback = document.querySelector('.theme-toggle .fallback-icon');
+        
+        // 检查Font Awesome是否加载成功
+        function checkFontAwesome() {
+            const spanFA = document.createElement('span');
+            spanFA.className = 'fa';
+            spanFA.style.display = 'none';
+            document.body.insertBefore(spanFA, document.body.firstChild);
+            
+            const isFALoaded = window.getComputedStyle(spanFA).fontFamily.includes('FontAwesome');
+            document.body.removeChild(spanFA);
+            
+            if (!isFALoaded) {
+                // 如果Font Awesome未加载，显示备用图标
+                document.querySelectorAll('.fallback-icon').forEach(el => {
+                    el.style.display = 'inline';
+                });
+                document.querySelectorAll('.fas').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // 替换列表项的圆点图标
+                document.querySelectorAll('ul li .fas.fa-circle').forEach(el => {
+                    el.parentNode.innerHTML = '● ' + el.parentNode.innerHTML.replace(el.outerHTML, '');
+                });
+            }
+        }
+        
+        // 页面加载后检查Font Awesome
+        window.addEventListener('load', checkFontAwesome);
         
         // Check for system preference or saved preference
         if (localStorage.getItem('theme') === 'dark' || 
@@ -604,6 +633,7 @@
             htmlElement.classList.add('dark');
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
+            themeIconFallback.textContent = '☀️';
         }
         
         themeToggle.addEventListener('click', () => {
@@ -613,10 +643,12 @@
                 localStorage.setItem('theme', 'dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
+                themeIconFallback.textContent = '☀️';
             } else {
                 localStorage.setItem('theme', 'light');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
+                themeIconFallback.textContent = '🌙';
             }
         });
         
@@ -697,6 +729,27 @@
 
         // 初始检查可见性
         window.addEventListener('load', checkVisibility);
+        // 滚动时检查可见性
+        window.addEventListener('scroll', checkVisibility);
+
+        // 确保所有text-center类的元素都居中显示
+        function enforceTextCenter() {
+            document.querySelectorAll('.text-center').forEach(el => {
+                el.style.textAlign = 'center';
+            });
+            
+            document.querySelectorAll('.main-title, .section-title, h3.text-center').forEach(el => {
+                el.style.textAlign = 'center';
+            });
+        }
+        
+        // 初始检查可见性和样式
+        window.addEventListener('load', function() {
+            checkVisibility();
+            checkFontAwesome();
+            enforceTextCenter();
+        });
+        
         // 滚动时检查可见性
         window.addEventListener('scroll', checkVisibility);
     </script>
