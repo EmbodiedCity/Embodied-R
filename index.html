@@ -42,7 +42,7 @@
 
         /* 阅读进度条样式 */
         .reading-progress-bar {
-            position: fixed;
+            /* position: fixed; */
             top: 0;
             left: 0;
             height: 4px;
@@ -232,8 +232,10 @@
             padding: 1.5rem;
             border-radius: 0.75rem;
             box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
             transition: var(--transition);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
         }
 
         .question-box:hover {
@@ -532,6 +534,23 @@
                 height: 2.5rem;
             }
         }
+        
+        .affiliation-badge {
+            background-color: var(--bg-color);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        
+        .dark .affiliation-badge {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
     </style>
 </head>
 <body>
@@ -547,7 +566,6 @@
             <ul class="nav-links">
                 <li><a href="#abstract">Abstract</a></li>
                 <li><a href="#task">Tasks</a></li>
-                <li><a href="#method">Method</a></li>
                 <li><a href="#experiment">Experiment</a></li>
             </ul>
             <button class="mobile-menu-btn">
@@ -567,6 +585,57 @@
 
     <div class="content-container">
         <h1 class="main-title fade-in">Embodied-R: Activating Embodied Spatial Reasoning in Large Multimodal Models through Reinforcement Learning</h1>
+
+        <div class="authors-section fade-in my-8">
+            <div class="flex flex-col items-center">
+                <!-- Authors Section -->
+                <div class="w-full max-w-3xl mx-auto">
+                    <h3 class="text-xl font-semibold mb-4 text-center relative">
+                        <span class="relative inline-block">
+                            <i class="fas fa-users text-primary-color mr-2"></i>Authors
+                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary-color to-transparent"></span>
+                        </span>
+                    </h3>
+                    
+                    <div class="authors-grid grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Baining Zhao<sup>*</sup></p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Ziyou Wang<sup>*</sup></p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Jianjie Fang<sup>*</sup></p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Chen Gao</p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Fanhang Man</p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Jinqiang Cui</p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Yong Li</p>
+                        </div>
+                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
+                            <p class="font-medium text-lg">Xinlei Chen</p>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-6">
+                        <p class="text-sm italic text-gray-600 dark:text-gray-400 mb-2">
+                            <sup>*</sup> Equal contribution
+                        </p>
+                        <div class="affiliation-badge inline-block px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 shadow-sm">
+                            <i class="fas fa-university text-primary-color mr-2"></i>
+                            <span class="font-medium" style="font-size: 1.1rem;">Affiliation: Tsinghua University</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <h2 id="abstract" class="section-title text-center fade-in">Abstract</h2>
         <p class="fade-in">
@@ -632,21 +701,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <h2 id="method" class="section-title text-center fade-in">Method</h2>
-        <div class="method-section">
-            <p class="fade-in">
-                The model can be divided into two main components: perception and reasoning.
-            </p>
-            <p class="fade-in">
-                For perception, embodied environments often contain substantial redundant information, with significant changes in visual perspective primarily arising from actions such as rotation. To address this, we designed a keyframe selection module based on entropy-driven information gain, while considering the input token constraints of large models. This module effectively reduces inference time and the number of frames by over 50%. Subsequently, mimicking the perception process of agents in real-world scenarios, we adopt an incremental approach to describe the differences between current and historical observations, highlighting newly acquired information and extracting the information most relevant to the embodied environment and the current task. The extracted perceptual information is then passed to the reasoning model.
-            </p>
-            <p class="fade-in">
-                For reasoning, large language models (LLMs) can be trained using reinforcement learning methods such as GRPO. We utilize multiple-choice questions as the training data, as their answers are straightforward to validate. A multi-stage training schedule is designed to guide the model toward convergence at a more optimal state.
-            </p>
-            
-            <img src="source\3.jpg" alt="Method illustration" class="fade-in">
         </div>
 
         <h2 id="experiment" class="section-title text-center fade-in">Experiment</h2>
