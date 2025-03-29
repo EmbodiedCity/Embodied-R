@@ -42,7 +42,7 @@
 
         /* 阅读进度条样式 */
         .reading-progress-bar {
-            /* position: fixed; */
+            position: fixed;
             top: 0;
             left: 0;
             height: 4px;
@@ -580,59 +580,34 @@
     </button>
     <button class="back-to-top" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
-        <span class="fallback-icon" style="display:none;">⬆️</span>
+        <span class="fallback-icon" style="display:none;">⬆</span>
     </button>
 
     <div class="content-container">
         <h1 class="main-title fade-in">Embodied-R: Activating Embodied Spatial Reasoning in Large Multimodal Models through Reinforcement Learning</h1>
 
-        <div class="authors-section fade-in my-8">
+        <div class="authors-section fade-in my-6">
             <div class="flex flex-col items-center">
-                <!-- Authors Section -->
-                <div class="w-full max-w-3xl mx-auto">
-                    <h3 class="text-xl font-semibold mb-4 text-center relative">
-                        <span class="relative inline-block">
-                            <i class="fas fa-users text-primary-color mr-2"></i>Authors
-                            <span class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary-color to-transparent"></span>
-                        </span>
-                    </h3>
+                <div class="w-full max-w-4xl mx-auto text-center">
+                    <p class="text-lg mb-3 font-medium" style="white-space: nowrap; overflow-x: auto; padding-bottom: 10px;">
+                        <span class="author-name">Baining Zhao<sup>*</sup></span>, <span class="author-name">Ziyou Wang<sup>*</sup></span>, <span class="author-name">Jianjie Fang<sup>*</sup></span>, <span class="author-name">Chen Gao</span>, <span class="author-name">Fanhang Man</span>, <span class="author-name">Jinqiang Cui</span>, <span class="author-name">Yong Li</span>, <span class="author-name">Xinlei Chen</span>
+                    </p>
                     
-                    <div class="authors-grid grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Baining Zhao<sup>*</sup></p>
+                    <!-- <div class="mb-4">
+                        <div class="affiliation-badge inline-block px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-md text-gray-700 dark:text-gray-300">
+                            <i class="fas fa-university text-primary-color mr-1"></i>
+                            <span>Tsinghua University</span>
                         </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Ziyou Wang<sup>*</sup></p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Jianjie Fang<sup>*</sup></p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Chen Gao</p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Fanhang Man</p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Jinqiang Cui</p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Yong Li</p>
-                        </div>
-                        <div class="author-item text-center p-3 rounded-lg transition-all duration-300 hover:shadow-md dark:hover:shadow-gray-800">
-                            <p class="font-medium text-lg">Xinlei Chen</p>
+                    </div> -->
+                    <div class="mb-4">
+                        <div class="inline-block font-bold">
+                            <i class="fas fa-university text-primary-color mr-1"></i>
+                            <span>Tsinghua University</span>
                         </div>
                     </div>
-                    
-                    <div class="text-center mb-6">
-                        <p class="text-sm italic text-gray-600 dark:text-gray-400 mb-2">
-                            <sup>*</sup> Equal contribution
-                        </p>
-                        <div class="affiliation-badge inline-block px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-700 dark:text-gray-300 shadow-sm">
-                            <i class="fas fa-university text-primary-color mr-2"></i>
-                            <span class="font-medium" style="font-size: 1.1rem;">Affiliation: Tsinghua University</span>
-                        </div>
-                    </div>
+                    <!-- <p class="text-sm italic text-gray-600 dark:text-gray-400">
+                        <sup>*</sup> Equal contribution
+                    </p> -->
                 </div>
             </div>
         </div>
@@ -799,6 +774,9 @@
             } else {
                 backToTopButton.classList.remove('visible');
             }
+            
+            // 更新阅读进度条
+            updateReadingProgress();
         });
         
         backToTopButton.addEventListener('click', () => {
@@ -889,9 +867,6 @@
             updateReadingProgress();
         });
         
-        // 滚动时检查可见性
-        window.addEventListener('scroll', checkVisibility);
-
         // 阅读进度条功能
         function updateReadingProgress() {
             const progressBar = document.getElementById('reading-progress');
