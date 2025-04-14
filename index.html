@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embodied-R</title>
+    <link rel="icon" href="source/Embodied-R.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
@@ -558,9 +559,18 @@
             color: #f7fafc;
         }
 
-        .logo i {
-            margin-right: 0.5rem;
-            color: var(--primary-color);
+        .logo-img {
+            height: 40px;
+            margin: 0 0.5rem 0 0;
+            display: inline-block;
+            vertical-align: middle;
+            box-shadow: none;
+            border-radius: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: none;
         }
 
         .nav-links {
@@ -766,12 +776,13 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <i class="fas fa-brain"></i>Embodied-R
+                <img src="source/Embodied-R.png" alt="Embodied-R Logo" class="logo-img">Embodied-R
             </a>
             <ul class="nav-links">
                 <li><a href="#task">Tasks</a></li>
                 <li><a href="#method">Method</a></li>
                 <li><a href="#experiment">Experiment</a></li>
+                <li><a href="#further-exploration">Further Exploration</a></li>
                 <!-- <li><a href="#conclusion">Conclusion</a></li> -->
             </ul>
             <button class="mobile-menu-btn">
@@ -824,7 +835,7 @@
         </style>
 
         <div class="container mx-auto max-w-7xl text-center">
-            <h1 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight animate__animated animate__fadeIn">Embodied-R: Activating Embodied Spatial Reasoning in Large Multimodal Models</h1>
+            <h1 class="text-3xl lg:text-4xl font-bold mb-6 leading-tight animate__animated animate__fadeIn">Embodied-R: Collaborative Framework for Activating Embodied Spatial Reasoning in Foundation Models via Reinforcement Learning</h1>
             <div class="flex flex-col lg:flex-row items-center gap-8 mb-8">
                 <div class="w-full lg:w-3/5 transform transition-transform duration-500 hover:scale-[1.02]">
                     <img src="source/task.png" alt="Embodied-R Task Visualization" class="w-full rounded-xl shadow-2xl">
@@ -872,24 +883,19 @@
                     </div>
                 </div>
             </div>
-
             <!-- 优化底部链接按钮，添加图标 -->
             <div class="flex flex-wrap justify-center gap-4 mt-6 mb-2">
-                <a href="https://arxiv.org/abs/2503.06157" class="px-6 py-3 bg-white text-blue-600 rounded-md transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-100">
+                <a href="https://arxiv.org/abs/2503.06157" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
                     <i class="fas fa-file-alt text-lg"></i>
                     <span>arXiv</span>
                 </a>
-                <a href="https://arxiv.org/pdf/2503.06157" class="px-6 py-3 bg-white text-blue-600 rounded-md transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-100">
+                <a href="https://arxiv.org/pdf/2503.06157" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
                     <i class="fas fa-file-pdf text-lg"></i>
                     <span>PDF</span>
                 </a>
-                <a href="https://github.com/EmbodiedCity/UrbanVideo-Bench.code" class="px-6 py-3 bg-white text-blue-600 rounded-md transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-100">
+                <a href="https://github.com/EmbodiedCity/UrbanVideo-Bench.code" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
                     <i class="fab fa-github text-lg"></i>
                     <span>Code</span>
-                </a>
-                <a href="https://huggingface.co/datasets/EmbodiedCity/UrbanVideo-Bench" class="px-6 py-3 bg-white text-blue-600 rounded-md transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-100">
-                    <i class="fas fa-database text-lg"></i>
-                    <span>Datasets</span>
                 </a>
             </div>
         </div>
@@ -902,9 +908,22 @@
         <div class="authors-section fade-in my-6">
             <div class="flex flex-col items-center">
                 <div class="w-full max-w-5xl mx-auto text-center">
-                    <p class="text-xl mb-3 font-medium" style="white-space: nowrap; overflow-x: auto; padding-bottom: 10px;">
-                        <span class="author-name">Baining Zhao<sup>*</sup></span>, <span class="author-name">Ziyou Wang<sup>*</sup></span>, <span class="author-name">Jianjie Fang<sup>*</sup></span>, <span class="author-name">Chen Gao</span>, <span class="author-name">Fanhang Man</span>, <span class="author-name">Jinqiang Cui</span>, <span class="author-name">Yong Li</span>, <span class="author-name">Xinlei Chen</span>
-                    </p>
+                    <div class="text-xl mb-3 font-medium">
+                        <p class="mb-2 flex justify-center flex-wrap gap-x-2">
+                            <span class="author-name">Baining Zhao<sup>*</sup></span>,
+                            <span class="author-name">Ziyou Wang<sup>*</sup></span>,
+                            <span class="author-name">Jianjie Fang<sup>*</sup></span>,
+                            <a href="mailto:chgao96@gmail.com" class="author-link">Chen Gao<sup>†</sup></a>,
+                            <span class="author-name">Fanghang Man</span>
+                        </p>
+                        <p class="flex justify-center flex-wrap gap-x-2">
+                            <span class="author-name">Jinqiang Cui</span>,
+                            <span class="author-name">Xin Wang</span>,
+                            <a href="mailto:chen.xinlei@sz.tsinghua.edu.cn" class="author-link">Xinlei Chen<sup>†</sup></a>,
+                            <span class="author-name">Yong Li</span>,
+                            <span class="author-name">Wenwu Zhu</span>
+                        </p>
+                    </div>
 
                     <div class="mb-4">
                         <div class="inline-block font-bold text-xl">
@@ -1026,6 +1045,18 @@
 
             <img src="source\5.png" alt="Overall Performance">
 
+            <h3 class="subsection-title fade-in">Slow-Thinking Capabilities</h3>
+            <p class="fade-in">
+                Beyond the quantitative results, we aim to explore whether spatial reasoning capabilities in the output of Embodied-R are improved. After RL training, Embodied-R demonstrates the following human-like reasoning ways:
+            </p>
+            <p class="fade-in">
+                <strong>1. Spatial Relationship Reasoning</strong>: Accurately inferring the relative spatial relationship between itself and the surrounding environment.<br>
+                <strong>2. Systematic Analysis</strong>: Breaking down problems into components, presenting answers with a "part-to-whole" structure, and maintaining clear logical organization.<br>
+                <strong>3. Contextual Integration</strong>: Integrating semantic information across different frames to perform comprehensive analysis.<br>
+                <strong>4. Think-Answer Format</strong>: Strictly adhering to a structured process of reasoning before outputting the final answer.
+            </p>
+            <img src="source\case.jpg" alt="case">
+
             <h3 class="subsection-title fade-in">Training Process</h3>
             <p class="fade-in">
                 During training, we designed a three-stage training schedule to achieve a smooth improvement in performance. Format rewards are relatively easy to learn, while accuracy rewards typically require more epochs to converge. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference ability and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks.
@@ -1043,18 +1074,38 @@
             <p class="fade-in">
                 Within this framework, the reasoning LLM model achieves accuracy improvements under the same input conditions, both before and after joint training. For instance, in <strong>EgoSchema</strong>, accuracy increased from 0.55 to 0.69. In the Egocentric navigation task within <strong>MVBench</strong>, accuracy improved from 0.36 to 0.40. This suggests that slow reasoning, as employed in RL models, could be a promising approach to improve the generalization capabilities even for small-scale models.
             </p>
+        </div>
 
-            <h3 class="subsection-title fade-in">Slow-Thinking Capabilities</h3>
+        <h2 id="further-exploration" class="section-title text-center fade-in">Further Exploration</h2>
+        <div class="further-exploration-section">
+            <h3 class="subsection-title fade-in">Relationship Between Inference Ability, Aha Moments, and Response Length</h3>
             <p class="fade-in">
-                Beyond the quantitative results, we aim to explore whether spatial reasoning capabilities in the output of Embodied-R are improved. After RL training, Embodied-R demonstrates the following human-like reasoning ways:
+                The GRPO training process involves tracking the validation set's accuracy reward, format reward, ratio of logical consistency reward to accuracy reward, and the response length. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference ability and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks, such as image-based reasoning.
             </p>
             <p class="fade-in">
-                <strong>1. Spatial Relationship Reasoning</strong>: Accurately inferring the relative spatial relationship between itself and the surrounding environment.<br>
-                <strong>2. Systematic Analysis</strong>: Breaking down problems into components, presenting answers with a "part-to-whole" structure, and maintaining clear logical organization.<br>
-                <strong>3. Contextual Integration</strong>: Integrating semantic information across different frames to perform comprehensive analysis.<br>
-                <strong>4. Think-Answer Format</strong>: Strictly adhering to a structured process of reasoning before outputting the final answer.
+                This leads us to hypothesize that response length is strongly influenced by the nature of the question itself. For instance, mathematical problems often require multi-step calculations, where increased reasoning length tends to correlate positively with reasoning ability. In contrast, for multimodal reasoning tasks like embodied spatial reasoning, the LM model training process converges toward an optimal range of text output distributions. Concise reasoning patterns may facilitate embodied spatial reasoning. This highlights the versatility of RL-based post-training method, demonstrating the ability to benefit a wide range of reasoning tasks.
             </p>
-            <img src="source\case.jpg" alt="case">
+
+            <h3 class="subsection-title fade-in">Why Not Directly Perform RL on VLLMs?</h3>
+            <p class="fade-in">
+                We previously attempted direct RL training on the Qwen-VL-3B-Instruct model. Under similar training parameters and time, the performance of the VLM was notably inferior to that of the LM. Upon convergence, the VLM achieved an accuracy of 43.8% on the test set, significantly lower than the LM. The limited perceptual capability of the VLM restricts its potential for reasoning improvements. Therefore, under resource-constrained conditions, collaborative inference integrating models of different scales present a promising solution.
+            </p>
+
+            <h3 class="subsection-title fade-in">Is Accuracy+Format Rewards All You Need?</h3>
+            <p class="fade-in">
+                According to the Deepseek-R1-Zero, it appears that accuracy and format rewards are enough to guide the model toward correct reasoning. However, during training in our problem, we observed instances of reward hacking, where the model optimizes the answer but the reasoning process leading to that answer is inconsistent with the answer itself. We aim to ensure alignment between the model's reasoning process and its answer, both to enhance generalization and improve the interpretability of the reasoning process.
+            </p>
+            <p class="fade-in">
+                We employ GPR-4o to evaluate the proportion of logically consistent outputs on the test set before and after incorporating a logical consistency reward. This proportion increased from 46.01% to 99.43% after the reward was added, demonstrating the value of this approach in addressing embodied spatial multiple-choice reasoning tasks. Moreover, this reward mechanism could potentially be extended to other reasoning tasks prone to answer accuracy hacking during training.
+            </p>
+
+            <h3 class="subsection-title fade-in">RL vs SFT when Generalizing to Out-of-Distribution (OOD) Embodied Tasks</h3>
+            <p class="fade-in">
+                For small-scale LMs, we aim to explore their generalization performance when trained with SFT instead of RL. To evaluate this, we introduced two OOD datasets: EgoSchema and the egocentric task in MVBench. These two OOD datasets differ significantly from the training set in both task content and scene characteristics.
+            </p>
+            <p class="fade-in">
+                RL-trained models demonstrate generalization ability across both datasets. On the EgoSchema dataset, the RL-trained language model under the Embodied-R framework even achieves performance comparable to the state-of-the-art multimodal reasoning model, Gemini-2.5-Pro. SFT-trained models showed improvement on EgoSchema but a decline on MVBench. This suggests that slow reasoning, as employed in RL models, could be a promising approach to improve the generalization capabilities even for small-scale models.
+            </p>
         </div>
 
         <!-- <h2 id="conclusion" class="section-title text-center fade-in">Conclusion</h2>
