@@ -1235,14 +1235,14 @@
                 In our experiments, the base models adopted by Embodied-R are: VLM: Qwen2.5-VL-72B-Instruct, LLM: Qwen2.5-3B-Instruct. We conducted five repeated experiments, with the dataset randomly divided into five equal parts and 5-fold cross-validation adopted. The final testing results are averaged across the five experiments.
             </p>
 
-            <h3 class="subsection-title fade-in">Overall Performance</h3>
+            <h3 class="subsection-title fade-in">RQ1:How does Embodied-R perform compared to existing video-LLMs?</h3>
             <p class="fade-in">
                 Experimental results demonstrate that our proposed reasoning-enhanced model outperforms proprietary models by over 10%+ and SFT-trained models by 5%+.
             </p>
 
             <img src="source\Overall_Performance.png" alt="Overall Performance">
 
-            <h3 class="subsection-title fade-in">Slow-Thinking Capabilities</h3>
+            <h3 class="subsection-title fade-in">RQ2:Has Embodied-R Learned Slow-Thinking?</h3>
             <p class="fade-in">
                 Beyond the quantitative results, we aim to explore whether spatial reasoning capabilities in the output of Embodied-R are improved. After RL training, Embodied-R demonstrates the following human-like reasoning ways:
             </p>
@@ -1254,28 +1254,23 @@
             </p>
             <img src="source\case.jpg" alt="case">
 
-            <h3 class="subsection-title fade-in">Training Process</h3>
+            <h3 class="subsection-title fade-in">RQ3:What are the contributions of each module?</h3>
             <p class="fade-in">
-                During training, we designed a three-stage training schedule to achieve a smooth improvement in performance. Format rewards are relatively easy to learn, while accuracy rewards typically require more epochs to converge. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference ability and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks.
+                <strong>Ablation of Key-Frame Extractor</strong>: The role of Key-Frame Extractor is to reduce inference time and training time by retaining essential frames and removing redundant ones while maintaining perceptual quality. With negligible differences in accuracy, training time is significantly reduced by 8.7%, and single inference time is reduced by approximately one-third.
             </p>
             <p class="fade-in">
-                We found that for multimodal reasoning tasks like embodied spatial reasoning, the LM model training process converges toward an optimal range of text output distributions. Concise reasoning patterns may facilitate embodied spatial reasoning. This highlights the versatility of RL-based post-training methods, demonstrating their ability to benefit a wide range of reasoning tasks.
+                <strong>Ablation of Collaboration</strong>: The collaborative framework enables improved reasoning capabilities under limited computational resources for training. With training-free large-scale pretrained VLMs, it only requires training small-scale LM models to achieve enhanced reasoning performance. With identical key-frame inputs and using the same VLM, Qwen2.5-VL-72B-Instruct, the overall accuracy of collaborative inference is 1.5 times higher than that of the standalone VLM.
+            </p>
+            <p class="fade-in">
+                <strong>Ablation of RL Training</strong>: RL is central to the LM training in this paper. Without RL training, directly applying the original LM-3B model for reasoning leads to poor performance, as the LM has limited exposure to embodied spatial reasoning data during pretraining. After RL training, the LM achieves significant improvements, with a 27.9% increase on the UrbanVideo-Bench and a 20.6% increase on the VSI-Bench benchmarks.
             </p>
 
-            <img src="source\4.png" alt="Training Process">
 
-            <h3 class="subsection-title fade-in">Out-of-Distribution Generalization</h3>
-            <p class="fade-in">
-                The resulting reasoning model exhibits strong performance not only on in-sample test sets but also demonstrates robust generalization to out-of-distribution datasets. We introduced two OOD datasets: EgoSchema and the egocentric task in MVBench. These two OOD datasets differ significantly from the training set in both task content and scene characteristics.
-            </p>
-            <p class="fade-in">
-                Within this framework, the reasoning LLM model achieves accuracy improvements under the same input conditions, both before and after joint training. For instance, in <strong>EgoSchema</strong>, accuracy increased from 0.55 to 0.69. In the Egocentric navigation task within <strong>MVBench</strong>, accuracy improved from 0.36 to 0.40. This suggests that slow reasoning, as employed in RL models, could be a promising approach to improve the generalization capabilities even for small-scale models.
-            </p>
         </div>
 
         <h2 id="further-exploration" class="section-title text-center fade-in">Further Exploration</h2>
         <div class="further-exploration-section">
-            <h3 class="subsection-title fade-in">Relationship Between Inference Ability, Aha Moments, and Response Length</h3>
+            <h3 class="subsection-title fade-in">RQ4:What is the Relationship Between Inference Ability, Aha Moments, and Response Length?</h3>
             <p class="fade-in">
                 The GRPO training process involves tracking the validation set's accuracy reward, format reward, ratio of logical consistency reward to accuracy reward, and the response length. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference ability and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks, such as image-based reasoning.
             </p>
@@ -1283,12 +1278,12 @@
                 This leads us to hypothesize that response length is strongly influenced by the nature of the question itself. For instance, mathematical problems often require multi-step calculations, where increased reasoning length tends to correlate positively with reasoning ability. In contrast, for multimodal reasoning tasks like embodied spatial reasoning, the LM model training process converges toward an optimal range of text output distributions. Concise reasoning patterns may facilitate embodied spatial reasoning. This highlights the versatility of RL-based post-training method, demonstrating the ability to benefit a wide range of reasoning tasks.
             </p>
 
-            <h3 class="subsection-title fade-in">Why Not Directly Perform RL on VLLMs?</h3>
+            <h3 class="subsection-title fade-in">RQ5:Why Not Directly Perform RL on VLLMs?</h3>
             <p class="fade-in">
                 We previously attempted direct RL training on the Qwen-VL-3B-Instruct model. Under similar training parameters and time, the performance of the VLM was notably inferior to that of the LM. Upon convergence, the VLM achieved an accuracy of 43.8% on the test set, significantly lower than the LM. The limited perceptual capability of the VLM restricts its potential for reasoning improvements. Therefore, under resource-constrained conditions, collaborative inference integrating models of different scales present a promising solution.
             </p>
 
-            <h3 class="subsection-title fade-in">Is Accuracy+Format Rewards All You Need?</h3>
+            <h3 class="subsection-title fade-in">RQ6:Is Accuracy+Format Rewards All You Need?</h3>
             <p class="fade-in">
                 According to the Deepseek-R1-Zero, it appears that accuracy and format rewards are enough to guide the model toward correct reasoning. However, during training in our problem, we observed instances of reward hacking, where the model optimizes the answer but the reasoning process leading to that answer is inconsistent with the answer itself. We aim to ensure alignment between the model's reasoning process and its answer, both to enhance generalization and improve the interpretability of the reasoning process.
             </p>
@@ -1296,7 +1291,7 @@
                 We employ GPT-4o to evaluate the proportion of logically consistent outputs on the test set before and after incorporating a logical consistency reward. This proportion increased from 46.01% to 99.43% after the reward was added, demonstrating the value of this approach in addressing embodied spatial multiple-choice reasoning tasks. Moreover, this reward mechanism could potentially be extended to other reasoning tasks prone to answer accuracy hacking during training.
             </p>
 
-            <h3 class="subsection-title fade-in">RL vs SFT when Generalizing to Out-of-Distribution (OOD) Embodied Tasks</h3>
+            <h3 class="subsection-title fade-in">RQ7:RL vs SFT when Generalize to Out-of-Distribution (OOD) Embodied Tasks</h3>
             <p class="fade-in">
                 For small-scale LMs, we aim to explore their generalization performance when trained with SFT instead of RL. To evaluate this, we introduced two OOD datasets: EgoSchema and the egocentric task in MVBench. These two OOD datasets differ significantly from the training set in both task content and scene characteristics.
             </p>
