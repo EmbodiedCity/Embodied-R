@@ -158,8 +158,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(circle at 20% 30%, rgba(49, 130, 206, 0.15) 0%, transparent 50%),
-                           radial-gradient(circle at 80% 70%, rgba(66, 153, 225, 0.1) 0%, transparent 50%);
+            background-image: none;
+            background-color: rgb(255, 255, 255);
             z-index: 0;
         }
 
@@ -501,7 +501,43 @@
         }
 
         .dark .cover-header {
-            background-image: linear-gradient(to bottom, var(--primary-dark), var(--secondary-dark));
+            background: rgb(255, 255, 255);
+        }
+
+        .dark .cover-header::before {
+            background-color: rgb(255, 255, 255);
+            background-image: none;
+        }
+
+        .dark .cover-title {
+            color: black !important;
+            -webkit-text-fill-color: black !important;
+        }
+
+        .dark .feature-icon {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .dark .feature-icon i {
+            color: #60a5fa;
+        }
+
+        .dark .features-container {
+            background: rgb(255, 255, 255);
+            border-color: rgba(30, 64, 175, 0.2);
+        }
+
+        .dark .feature-content h4 {
+            color: black;
+        }
+
+        .dark .feature-content p {
+            color: rgba(0, 0, 0, 0.85);
+        }
+
+        .dark .feature-item {
+            border-bottom: 1px solid rgba(30, 64, 175, 0.1);
         }
 
         .dark .feature-card {
@@ -801,103 +837,255 @@
         <span class="fallback-icon" style="display:none;">⬆</span>
     </button>
 
-    <!-- 封面设计 - 简洁顶部区域 -->
-    <header class="cover-header bg-gradient-to-b from-primary-dark to-secondary-dark text-white py-16 px-6 mb-8">
+    <!-- 封面设计 - 优化顶部区域 -->
+    <header class="cover-header py-16 mb-8 relative overflow-hidden">
         <!-- 添加Font Awesome图标库，确保图标可以正确加载 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- 添加Animate.css库 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-        <!-- 添加自定义样式修复图标显示问题 -->
+        <!-- 添加自定义样式 -->
         <style>
+            /* 封面背景样式 */
+            .cover-header {
+                background: rgb(255, 255, 255);
+                color: var(--text-color);
+                position: relative;
+            }
+
             /* 强制显示所有图标 */
-            .fas, .fab {
+            .fas, .fab, .ai {
                 display: inline-block !important;
             }
+
             /* 隐藏所有fallback图标 */
             .fallback-icon {
                 display: none !important;
             }
-            /* 调整图标大小和颜色 */
-            .icon-circle {
-                background-color: #f0f4ff;
-                border: 2px solid #3b82f6;
+
+            /* 特性卡片样式 */
+            .features-container {
+                background: rgb(255, 255, 255);
+                backdrop-filter: blur(10px);
+                border-radius: 12px;
+                border: 1px solid rgba(30, 64, 175, 0.2);
+                padding: 1.2rem;
+                height: 100%;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             }
-            .icon-circle i {
-                color: #1e40af;
-                font-size: 1.5rem;
+
+            /* 特性图标样式 */
+            .feature-icon {
+                width: 36px;
+                height: 36px;
+                background: rgba(240, 248, 255, 0.9);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 0.8rem;
+                flex-shrink: 0;
+                border: 1px solid rgba(30, 64, 175, 0.3);
             }
-            /* 优化文字间距和行高 */
-            .feature-text {
-                letter-spacing: -0.01em;
-                line-height: 1.4;
-                word-spacing: normal;
-                text-align: left;
+
+            .feature-icon i {
+                color: #1E40AF;
+                font-size: 1rem;
+            }
+
+            /* 特性项样式 */
+            .feature-item {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.8rem;
+                border-bottom: 1px solid rgba(30, 64, 175, 0.1);
+            }
+
+            .feature-item:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .feature-content h4 {
+                font-size: 1rem;
+                margin-bottom: 0.2rem;
+                font-weight: 600;
+                color: black;
+            }
+
+            .feature-content p {
+                font-size: 0.85rem;
+                margin: 0;
+                line-height: 1.3;
+                color: rgba(0, 0, 0, 0.85);
+            }
+
+            /* 标题样式 */
+            .cover-title {
+                font-size: 2.5rem;
+                font-weight: 800;
+                line-height: 1.3;
+                margin-bottom: 1.5rem;
+                background: linear-gradient(to right, #ffffff, #f0f4ff);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            /* 按钮样式 */
+            .action-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+
+            .action-button {
+                padding: 0.8rem 1.5rem;
+                border-radius: 50px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .action-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+            /* 主图样式 */
+            .main-image-container {
+                position: relative;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                transition: all 0.3s ease;
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .main-image-container:hover {
+                transform: scale(1.01);
+            }
+
+            .main-image {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            /* 响应式调整 */
+            @media (max-width: 768px) {
+                .cover-title {
+                    font-size: 1.8rem;
+                }
+
+                .feature-icon {
+                    width: 36px;
+                    height: 36px;
+                }
+
+                .feature-content h4 {
+                    font-size: 1rem;
+                }
+
+                .feature-content p {
+                    font-size: 0.85rem;
+                }
+
+                .action-button {
+                    padding: 0.7rem 1.2rem;
+                    font-size: 0.9rem;
+                }
             }
         </style>
 
-        <div class="container mx-auto max-w-7xl text-center">
-            <h1 class="text-3xl lg:text-4xl font-bold mb-6 leading-tight animate__animated animate__fadeIn">Embodied-R: Collaborative Framework for Activating Embodied Spatial Reasoning in Foundation Models via Reinforcement Learning</h1>
-            <div class="flex flex-col lg:flex-row items-stretch gap-4 mb-8 h-full">
-                <div class="w-full lg:w-2/3 h-full transform transition-transform duration-500 hover:scale-[1.02]">
-                    <img src="source/task_new.png" alt="Embodied-R Task Visualization" class="w-full h-full object-cover rounded-xl shadow-2xl">
+
+
+        <div class="container mx-auto max-w-7xl px-4 relative z-10">
+            <!-- 标题区域 -->
+            <h1 class="cover-title text-center animate__animated animate__fadeIn" style="color: black; -webkit-text-fill-color: black; background: none; font-size: 2.2rem;">Embodied-R: Collaborative Framework for Activating Embodied Spatial Reasoning in Foundation Models via Reinforcement Learning</h1>
+
+            <!-- 内容区域 -->
+            <div class="flex flex-col lg:flex-row items-stretch gap-4 mt-6">
+                <!-- 主图区域 -->
+                <div class="w-full lg:w-8/12 flex items-center">
+                    <div class="main-image-container">
+                        <img src="source/task.png" alt="Embodied-R Task Visualization" class="main-image">
+                    </div>
                 </div>
-                <div class="w-full lg:w-1/3 grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <!-- 特性卡片1：优化视觉效果和交互 -->
-                    <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm p-1 rounded-lg shadow-lg border border-white border-opacity-20 transition-all duration-300 hover:bg-opacity-30 hover:shadow-xl hover:translate-y-[-5px]">
-                        <div class="flex items-center mb-0.5">
-                            <div class="w-10 h-10 icon-circle rounded-full flex items-center justify-center mr-3 shadow-md">
+
+                <!-- 特性区域 -->
+                <div class="w-full lg:w-4/12">
+                    <div class="features-container">
+                        <!-- 特性列表 -->
+                        <div class="feature-item">
+                            <div class="feature-icon">
                                 <i class="fas fa-brain"></i>
                             </div>
-                            <h3 class="font-semibold text-lg">Collaborative Framework</h3>
+                            <div class="feature-content">
+                                <h4>Collaborative Framework</h4>
+                                <p>Combining large-scale VLMs for perception and small-scale LMs for reasoning</p>
+                            </div>
                         </div>
-                        <p class="text-black text-opacity-80 text-base font-medium feature-text">Combining large-scale VLMs for perception and small-scale LMs for reasoning</p>
-                    </div>
-                    <!-- 特性卡片2 -->
-                    <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm p-1 rounded-lg shadow-lg border border-white border-opacity-20 transition-all duration-300 hover:bg-opacity-30 hover:shadow-xl hover:translate-y-[-5px]">
-                        <div class="flex items-center mb-0.5">
-                            <div class="w-10 h-10 icon-circle rounded-full flex items-center justify-center mr-3 shadow-md">
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
                                 <i class="fas fa-award"></i>
                             </div>
-                            <h3 class="font-semibold text-lg">Novel Reward System</h3>
+                            <div class="feature-content">
+                                <h4>Novel Reward System</h4>
+                                <p>Think-answer logical consistency for enhanced slow-thinking capabilities</p>
+                            </div>
                         </div>
-                        <p class="text-black text-opacity-80 text-base font-medium feature-text">Think-answer logical consistency for enhanced slow-thinking capabilities</p>
-                    </div>
-                    <!-- 特性卡片3 -->
-                    <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm p-1 rounded-lg shadow-lg border border-white border-opacity-20 transition-all duration-300 hover:bg-opacity-30 hover:shadow-xl hover:translate-y-[-5px]">
-                        <div class="flex items-center mb-0.5">
-                            <div class="w-10 h-10 icon-circle rounded-full flex items-center justify-center mr-3 shadow-md">
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
                                 <i class="fas fa-chart-line"></i>
                             </div>
-                            <h3 class="font-semibold text-lg">SOTA Performance</h3>
+                            <div class="feature-content">
+                                <h4>SOTA Performance</h4>
+                                <p>Comparable to o1/Gemini-2.5-Pro in embodied spatial reasoning tasks</p>
+                            </div>
                         </div>
-                        <p class="text-black text-opacity-80 text-base font-medium feature-text">Matches leading models on both in-distribution and out-of-distribution tasks</p>
-                    </div>
-                    <!-- 特性卡片4 -->
-                    <div class="bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm p-1 rounded-lg shadow-lg border border-white border-opacity-20 transition-all duration-300 hover:bg-opacity-30 hover:shadow-xl hover:translate-y-[-5px]">
-                        <div class="flex items-center mb-0.5">
-                            <div class="w-10 h-10 icon-circle rounded-full flex items-center justify-center mr-3 shadow-md">
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
                                 <i class="fas fa-lightbulb"></i>
                             </div>
-                            <h3 class="font-semibold text-lg">Emergent Thinking</h3>
+                            <div class="feature-content">
+                                <h4>Emergent Thinking</h4>
+                                <p>Exhibits systematic analysis and contextual integration patterns</p>
+                            </div>
                         </div>
-                        <p class="text-black text-opacity-80 text-base font-medium feature-text">Exhibits systematic analysis and contextual integration patterns</p>
                     </div>
                 </div>
             </div>
-            <!-- 优化底部链接按钮，添加图标 -->
-            <div class="flex flex-wrap justify-center gap-4 mt-6 mb-2">
-                <a href="https://arxiv.org/abs/2503.06157" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
-                    <span class="icon is-small" style="margin-right:4px">
-                      <i class="ai ai-arxiv"></i>
-                    </span>
+
+            <!-- 按钮区域 -->
+            <div class="action-buttons">
+                <a href="https://arxiv.org/abs/2503.06157" class="action-button">
+                    <i class="ai ai-arxiv"></i>
                     <span>arXiv</span>
                 </a>
-                <a href="https://arxiv.org/pdf/2503.06157" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
-                    <i class="fas fa-file-pdf text-lg"></i>
+                <a href="https://arxiv.org/pdf/2503.06157" class="action-button">
+                    <i class="fas fa-file-pdf"></i>
                     <span>PDF</span>
                 </a>
-                <a href="https://github.com/EmbodiedCity/Embodied-R.code" class="px-6 py-3 bg-black text-white rounded-full transition-all duration-300 font-medium flex items-center gap-2 hover:shadow-lg hover:translate-y-[-2px] hover:bg-gray-800 border border-gray-700">
-                    <i class="fab fa-github text-lg"></i>
+                <a href="https://github.com/EmbodiedCity/Embodied-R.code" class="action-button">
+                    <i class="fab fa-github"></i>
                     <span>Code</span>
                 </a>
             </div>
@@ -949,7 +1137,7 @@
             <strong>2. Complex Spatio-temporal Relationships</strong>: Video data naturally involves complex spatio-temporal relationships, requiring the discovery of object associations across frames and the extraction of semantics relevant to the reasoning task. For instance, to navigate to a destination outside the current field of view, one must infer their location from historical visual observations, build a mental map of the environment, develop a high-level plan to determine the direction, and finally decide on specific actions to execute.
         </p>
         <p class="fade-in">
-            <strong>3. Distinct Characteristics of Embodied Observations</strong>: Egocentric videos focus on understanding the relationship between the observer and the surrounding environment, often from a constrained first-person perspective. Additionally, embodied continuous visual observations are generated over time, indicating that embodied perception should rely on sequential inputs rather than aggregating all visual observations for a single input after a prolonged period.
+            <strong>3. Distinct Characteristics of Embodied Observations</strong>: First, egocentric videos focus on understanding the relationship between the observer and the surrounding environment, often from a constrained first-person perspective. Second, embodied continuous visual observations are generated over time, indicating that embodied perception should rely on sequential inputs rather than aggregating all visual observations for a single input after a prolonged period. Finally, embodied visual observations also exhibit spatial continuity, meaning there is significant redundancy and repetition between frames.
         </p>
 
         <!-- 整合视频和问题的容器 -->
@@ -1009,27 +1197,33 @@
         </div>
 
         <h2 id="method" class="section-title text-center fade-in">Method</h2>
-        <p class="fade-in">
-            Our proposed Embodied-R is a collaborative framework combining large-scale Vision-Language Models (VLMs) for perception and small-scale Language Models (LMs) for reasoning. By decoupling perception and reasoning, we can leverage the perceptual capabilities of large-scale VLMs while training resource-efficient small-scale LMs to activate embodied reasoning through reinforcement learning.
-        </p>
-        <h3 class="subsection-title fade-in">Large-Scale VLM-based Perception</h3>
-        <p class="fade-in">
-            <strong>Key-Frame Extractor</strong>: As the agent moves continuously in space, high sampling frequencies result in significant overlap between consecutive frames. On one hand, the VLM relies on changes in static objects within the environment across frames to infer the agent's pose variation. On the other hand, excessive overlap between frames leads to increased inference costs for both the VLM and LLM. To address this, we designed a key-frame extractor tailored to the characteristics of embodied videos, selecting key frames that retain overlap while ensuring sufficient information gain between them.
-        </p>
-        <p class="fade-in">
-            <strong>Embodied Semantic Representation</strong>: Since perceptual capability is positively correlated with model size, we employ a large-scale VLM to process visual inputs to ensure high-quality perception. The differential information of each key frame is described sequentially. This approach provides two key benefits: 1) The sequential and dynamic processing aligns better with the characteristics of embodied scenarios, where visual observations are continuously generated over time. 2) It facilitates the handling of long videos by avoiding the input token limitations that arise when all frames are processed simultaneously by the VLM.
-        </p>
-        <h3 class="subsection-title fade-in">Small-Scale LM-based Reasoning</h3>
-        <p class="fade-in">
-            <strong>Group Relative Policy Optimization (GRPO)</strong>: We adopt a computationally efficient RL training strategy, GRPO. For a given query and semantic annotation, GRPO generates a group of outputs using the reference policy, then updates the policy model by optimizing the objective function.
-        </p>
-        <p class="fade-in">
-            <strong>Reward Modeling</strong>: We propose three types of rewards: format reward, accuracy reward, and logical consistency reward. These are designed to respectively guide the model to learn the "think-answer" reasoning pattern, accurate embodied spatial reasoning, and logical consistency between reasoning and the answer. Notably, we introduce a novel logical consistency reward to address reward hacking behaviors observed during training, ensuring alignment between the reasoning process and the final answer.
-        </p>
-        <p class="fade-in">
-            <strong>Three-Stage Training Schedule</strong>: We design a three-stage training schedule to achieve a smooth improvement in training performance. The primary distinction between stages lies in the different weight ratios assigned to the three types of rewards: Stage 1 (epochs 1-2) focuses on format rewards; Stage 2 (epochs 3-4) shifts to improving the accuracy of model responses; Stage 3 (epochs 5-12) aims to enhance accuracy while simultaneously improving the quality of the "thinking" process.
-        </p>
-        <img src="source/3.jpg" alt="Method Overview">
+        <div class="method-section">
+            <p class="fade-in">
+                Our proposed Embodied-R is a collaborative framework combining large-scale Vision-Language Models (VLMs) for perception and small-scale Language Models (LMs) for reasoning. By decoupling perception and reasoning, we can leverage the perceptual capabilities of large-scale VLMs while training resource-efficient small-scale LMs to activate embodied reasoning through reinforcement learning.
+            </p>
+            <img src="source/3.jpg" alt="Method Overview">
+            <h3 class="subsection-title fade-in">Large-Scale VLM-based Perception</h3>
+            <p class="fade-in">
+                <strong>Key-Frame Extractor</strong>: As the agent moves continuously in space, high sampling frequencies result in significant overlap between consecutive frames. On one hand, the VLM relies on changes in static objects within the environment across frames to infer the agent's pose variation. On the other hand, excessive overlap between frames leads to increased inference costs for both the VLM and LLM. To address this, we designed a key-frame extractor tailored to the characteristics of embodied videos, selecting key frames that retain overlap while ensuring sufficient information gain between them.
+            </p>
+            <p class="fade-in">
+                <strong>Embodied Semantic Representation</strong>: Since perceptual capability is positively correlated with model size, we employ a large-scale VLM to process visual inputs to ensure high-quality perception. The differential information of each key frame is described sequentially. This approach provides two key benefits: 1) The sequential and dynamic processing aligns better with the characteristics of embodied scenarios, where visual observations are continuously generated over time. 2) It facilitates the handling of long videos by avoiding the input token limitations that arise when all frames are processed simultaneously by the VLM.
+            </p>
+            <h3 class="subsection-title fade-in">Small-Scale LM-based Reasoning</h3>
+            <p class="fade-in">
+                Given semantic perception, we can inference the answer through a LM, which can be trained with limit computational resource to boost the spatial reasoning ability.
+            </p>
+            <p class="fade-in">
+                <strong>Group Relative Policy Optimization (GRPO)</strong>: We adopt a computationally efficient RL training strategy, GRPO. For a given query and semantic annotation, GRPO generates a group of outputs using the reference policy, then updates the policy model by optimizing the objective function.
+            </p>
+            <p class="fade-in">
+                <strong>Reward Modeling</strong>: We propose three types of rewards: format reward, accuracy reward, and logical consistency reward. These are designed to respectively guide the model to learn the "think-answer" reasoning pattern, accurate embodied spatial reasoning, and logical consistency between reasoning and the answer. Notably, we introduce a novel logical consistency reward to address reward hacking behaviors observed during training, ensuring alignment between the reasoning process and the final answer.
+            </p>
+            <p class="fade-in">
+                <strong>Three-Stage Training Schedule</strong>: We design a three-stage training schedule to achieve a smooth improvement in training performance. The primary distinction between stages lies in the different weight ratios assigned to the three types of rewards: Stage 1 (epochs 1-2) focuses on format rewards; Stage 2 (epochs 3-4) shifts to improving the accuracy of model responses; Stage 3 (epochs 5-12) aims to enhance accuracy while simultaneously improving the quality of the "thinking" process.
+            </p>
+        </div>
+
 
         <h2 id="experiment" class="section-title text-center fade-in">Experiment</h2>
         <div class="experiment-section">
@@ -1038,12 +1232,12 @@
                 We primarily focus on spatial reasoning problems during motion within three-dimensional physical space. We selected two embodied video datasets as the main training and testing sets: VSI-Bench (indoor first-person navigation data) and UrbanVideo-Bench (outdoor embodied data captured by drones navigating through aerial spaces). These datasets provide diversity in scenarios by incorporating both indoor and outdoor video data. We specifically selected four distinct types of tasks from each dataset, characterized by long spatial reasoning chains and low accuracy.
             </p>
             <p class="fade-in">
-                In our experiments, the base models adopted by Embodied-R are: VLM: Qwen2.5-VL-72B, LLM: Qwen2.5-3B-Instruct. We conducted five repeated experiments, with the dataset randomly divided into five equal parts and 5-fold cross-validation adopted. The final testing results are averaged across the five experiments.
+                In our experiments, the base models adopted by Embodied-R are: VLM: Qwen2.5-VL-72B-Instruct, LLM: Qwen2.5-3B-Instruct. We conducted five repeated experiments, with the dataset randomly divided into five equal parts and 5-fold cross-validation adopted. The final testing results are averaged across the five experiments.
             </p>
 
             <h3 class="subsection-title fade-in">Overall Performance</h3>
             <p class="fade-in">
-                Experimental results demonstrate that our proposed reasoning-enhanced model outperforms large-scale multimodal models such as GPT-4o and Gemini-1.5-pro in video reasoning tasks. Notably, after undergoing RL training, our model significantly outperformed proprietary models as well as OpenAI-o1 and Gemini-2.5-Pro by over 10%. These results highlight the considerable difficulty of embodied reasoning tasks and indicate that current reasoning models lack generalization capability for such spatial reasoning challenges.
+                Experimental results demonstrate that our proposed reasoning-enhanced model outperforms proprietary models by over 10%+ and SFT-trained models by 5%+.
             </p>
 
             <img src="source\Overall_Performance.png" alt="Overall Performance">
@@ -1099,7 +1293,7 @@
                 According to the Deepseek-R1-Zero, it appears that accuracy and format rewards are enough to guide the model toward correct reasoning. However, during training in our problem, we observed instances of reward hacking, where the model optimizes the answer but the reasoning process leading to that answer is inconsistent with the answer itself. We aim to ensure alignment between the model's reasoning process and its answer, both to enhance generalization and improve the interpretability of the reasoning process.
             </p>
             <p class="fade-in">
-                We employ GPR-4o to evaluate the proportion of logically consistent outputs on the test set before and after incorporating a logical consistency reward. This proportion increased from 46.01% to 99.43% after the reward was added, demonstrating the value of this approach in addressing embodied spatial multiple-choice reasoning tasks. Moreover, this reward mechanism could potentially be extended to other reasoning tasks prone to answer accuracy hacking during training.
+                We employ GPT-4o to evaluate the proportion of logically consistent outputs on the test set before and after incorporating a logical consistency reward. This proportion increased from 46.01% to 99.43% after the reward was added, demonstrating the value of this approach in addressing embodied spatial multiple-choice reasoning tasks. Moreover, this reward mechanism could potentially be extended to other reasoning tasks prone to answer accuracy hacking during training.
             </p>
 
             <h3 class="subsection-title fade-in">RL vs SFT when Generalizing to Out-of-Distribution (OOD) Embodied Tasks</h3>
