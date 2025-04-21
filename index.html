@@ -69,6 +69,9 @@
             color: var(--text-color);
             background-color: var(--bg-color);
             transition: var(--transition);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -502,17 +505,21 @@
         }
 
         .dark .cover-header {
-            background: rgb(255, 255, 255);
+            background: rgb(0, 0, 0);
         }
 
-        .dark .cover-header::before {
-            background-color: rgb(255, 255, 255);
-            background-image: none;
+        .dark .background-image {
+            filter: blur(5px) brightness(0.7);
         }
 
-        .dark .cover-title {
-            color: black !important;
-            -webkit-text-fill-color: black !important;
+        .dark .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .dark .text-container h1,
+        .dark .text-container p {
+            color: white;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
         }
 
         .dark .feature-icon {
@@ -558,16 +565,23 @@
 
         /* 导航栏样式 */
         .navbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             background-color: var(--card-bg);
             box-shadow: var(--shadow);
-            transition: var(--transition);
+            transition: transform 0.3s ease, background-color 0.3s ease;
             padding: 0.75rem 0;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-100%);
+        }
+
+        .navbar.visible {
+            transform: translateY(0);
         }
 
         .dark .navbar {
@@ -839,19 +853,23 @@
         <span class="fallback-icon" style="display:none;">⬆</span>
     </button>
 
-    <!-- 封面设计 - 优化顶部区域 -->
-    <header class="cover-header py-16 mb-8 relative overflow-hidden">
+    <!-- 封面设计 - 视频网格封面 -->
+    <header class="cover-header">
         <!-- 添加Font Awesome图标库，确保图标可以正确加载 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- 添加Animate.css库 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         <!-- 添加自定义样式 -->
         <style>
-            /* 封面背景样式 */
+            /* 封面样式 */
             .cover-header {
-                background: rgb(255, 255, 255);
-                color: var(--text-color);
                 position: relative;
+                height: 100vh;
+                width: 100%;
+                overflow: hidden;
+                margin-bottom: 0;
+                background-color: #000;
+                display: block;
             }
 
             /* 强制显示所有图标 */
@@ -864,77 +882,129 @@
                 display: none !important;
             }
 
-            /* 特性卡片样式 */
-            .features-container {
-                background: rgb(255, 255, 255);
-                backdrop-filter: blur(10px);
-                border-radius: 12px;
-                border: 1px solid rgba(30, 64, 175, 0.2);
-                padding: 1.2rem;
+            /* 视频格子铺满全屏无间隙 */
+            .video-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 25vw);  /* 每列25% */
+                grid-template-rows: repeat(3, 33.3333vh); /* 每行 1/3 */
+                width: 100vw;
+                height: 100vh;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+                overflow: hidden;
+                margin: 0;
+                padding: 0;
+                grid-gap: 0;
+                background-color: #000;
+            }
+
+            .video-grid video {
+                width: 100%;
                 height: 100%;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                object-fit: cover;
+                display: block;
+                border: none;
+                margin: 0;
+                padding: 0;
+                max-width: none;
+                box-shadow: none;
+                transition: none;
+                transform: none;
+                border-radius: 0;
+                position: relative;
             }
 
-            /* 特性图标样式 */
-            .feature-icon {
-                width: 36px;
-                height: 36px;
-                background: rgba(240, 248, 255, 0.9);
-                border-radius: 50%;
+            .video-grid video:hover {
+                transform: none;
+            }
+
+            /* 灰色透明蒙版 */
+            .overlay {
+                position: absolute;
+                top: 0; left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 1;
+            }
+
+            /* 居中文字 */
+            .text-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 2;
+                text-align: center;
+                color: white;
+                text-shadow: 0 0 10px black;
+                width: 90%;
+                max-width: 1200px;
+                font-family: 'Noto Serif SC', serif, 'SimHei', 'Microsoft YaHei', '黑体', '宋体';
+            }
+
+            .text-container h1 {
+                font-size: 4.5em;
+                margin-bottom: 0.3em;
+                font-weight: 700;
+                letter-spacing: 3px;
+                color: white;
+                line-height: 1.2;
+                text-shadow: 0 0 15px rgba(0,0,0,0.7);
+            }
+
+            .text-container .main-subtitle {
+                font-size: 1.8em;
+                white-space: nowrap;
+                margin: 0.2em 0;
+                font-weight: 500;
+                color: white;
+                line-height: 1.5;
+            }
+
+            .text-container p {
+                font-size: 1.2em;
+                margin: 0.3em 0;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 0.9);
+                line-height: 1.5;
+            }
+
+            /* 特点容器样式 */
+            .features-container {
+                margin-top: 1rem;
                 display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 0.8rem;
-                flex-shrink: 0;
-                border: 1px solid rgba(30, 64, 175, 0.3);
+                flex-direction: column;
+                gap: 0.5rem;
+                background-color: rgba(0, 0, 0, 0.4);
+                border-radius: 10px;
+                padding: 1.5rem;
+                backdrop-filter: blur(5px);
+                max-width: 650px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
-            .feature-icon i {
-                color: #1E40AF;
-                font-size: 1rem;
-            }
-
-            /* 特性项样式 */
             .feature-item {
                 display: flex;
-                align-items: flex-start;
-                margin-bottom: 0.8rem;
-                padding-bottom: 0.8rem;
-                border-bottom: 1px solid rgba(30, 64, 175, 0.1);
+                align-items: center;
+                gap: 0.75rem;
+                text-align: left;
+                font-size: 1em;
+                margin: 0.25rem 0;
             }
 
-            .feature-item:last-child {
-                margin-bottom: 0;
-                padding-bottom: 0;
-                border-bottom: none;
+            .feature-icon {
+                color: #3182ce;
+                font-size: 1.2em;
+                flex-shrink: 0;
             }
 
-            .feature-content h4 {
-                font-size: 1rem;
-                margin-bottom: 0.2rem;
+            .feature-item span {
                 font-weight: 600;
-                color: black;
-            }
-
-            .feature-content p {
-                font-size: 0.85rem;
-                margin: 0;
-                line-height: 1.3;
-                color: rgba(0, 0, 0, 0.85);
-            }
-
-            /* 标题样式 */
-            .cover-title {
-                font-size: 2.5rem;
-                font-weight: 800;
-                line-height: 1.3;
-                margin-bottom: 1.5rem;
-                background: linear-gradient(to right, #ffffff, #f0f4ff);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                color: #63b3ed;
             }
 
             /* 按钮样式 */
@@ -944,6 +1014,11 @@
                 justify-content: center;
                 gap: 1rem;
                 margin-top: 2rem;
+                position: absolute;
+                bottom: 5%;
+                left: 0;
+                right: 0;
+                z-index: 3;
             }
 
             .action-button {
@@ -976,6 +1051,7 @@
                 height: 100%;
                 display: flex;
                 align-items: center;
+                margin: 2rem auto;
             }
 
             .main-image-container:hover {
@@ -990,21 +1066,28 @@
 
             /* 响应式调整 */
             @media (max-width: 768px) {
-                .cover-title {
-                    font-size: 1.8rem;
+                .text-container h1 {
+                    font-size: 2.5em;
                 }
 
-                .feature-icon {
-                    width: 36px;
-                    height: 36px;
+                .text-container .main-subtitle {
+                    font-size: 1.3em;
+                    white-space: normal;
                 }
 
-                .feature-content h4 {
-                    font-size: 1rem;
+                .text-container p {
+                    font-size: 1em;
+                    white-space: normal;
                 }
 
-                .feature-content p {
-                    font-size: 0.85rem;
+                .features-container {
+                    padding: 1rem;
+                    margin-top: 1.5rem;
+                }
+
+                .feature-item {
+                    font-size: 0.9em;
+                    gap: 0.5rem;
                 }
 
                 .action-button {
@@ -1012,85 +1095,71 @@
                     font-size: 0.9rem;
                 }
             }
+
+            /* 导航栏样式 - 滚动时显示 */
+            .navbar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                transition: transform 0.3s ease, background-color 0.3s ease;
+                transform: translateY(-100%);
+            }
+
+            .navbar.visible {
+                transform: translateY(0);
+            }
         </style>
 
+        <!-- 视频网格 -->
+        <div class="video-grid">
+            <!-- 12 视频 -->
+            <video src="source/videos/12.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/2.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/3.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/4.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/5.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/6.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/7.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/8.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/9.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/10.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/11.mp4" autoplay muted loop playsinline></video>
+            <video src="source/videos/1.mp4" autoplay muted loop playsinline></video>
+        </div>
 
+        <!-- 灰色蒙版 -->
+        <div class="overlay"></div>
 
-        <div class="container mx-auto max-w-7xl px-4 relative z-10">
-            <!-- 标题区域 -->
-            <h1 class="cover-title text-center animate__animated animate__fadeIn" style="color: black; -webkit-text-fill-color: black; background: none; font-size: 2.2rem;">Embodied-R: Collaborative Framework for Activating Embodied Spatial Reasoning in Foundation Models via Reinforcement Learning</h1>
+        <!-- 中间白字 -->
+        <div class="text-container text-center">
+            <h1 class="text-center">Embodied-R</h1>
+            <p class="text-center main-subtitle">Collaborative Framework for Activating Embodied Spatial</p>
+            <p class="text-center main-subtitle">Reasoning in Foundation Models via Reinforcement Learning</p>
 
-            <!-- 内容区域 -->
-            <div class="flex flex-col lg:flex-row items-stretch gap-4 mt-6">
-                <!-- 主图区域 -->
-                <div class="w-full lg:w-8/12 flex items-center">
-                    <div class="main-image-container">
-                        <img src="source/task.png" alt="Embodied-R Task Visualization" class="main-image">
-                    </div>
-                </div>
-
-                <!-- 特性区域 -->
-                <div class="w-full lg:w-4/12">
-                    <div class="features-container">
-                        <!-- 特性列表 -->
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Collaborative Framework</h4>
-                                <p>Combining large-scale VLMs for perception and small-scale LMs for reasoning</p>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Novel Reward System</h4>
-                                <p>Think-answer logical consistency for enhanced slow-thinking capabilities</p>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>SOTA Performance</h4>
-                                <p>Comparable to o1/Gemini-2.5-Pro in embodied spatial reasoning tasks</p>
-                            </div>
-                        </div>
-
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Emergent Thinking</h4>
-                                <p>Exhibits systematic analysis and contextual integration patterns</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="features-container">
+                <p class="feature-item text-center"><i class="fas fa-cogs feature-icon"></i> <span>Collaborative Framework:</span> Combining large-scale VLMs for perception and small-scale LMs for reasoning</p>
+                <p class="feature-item text-center"><i class="fas fa-award feature-icon"></i> <span>Novel Reward System:</span> Think-answer logical consistency for enhanced slow-thinking capabilities</p>
+                <p class="feature-item text-center"><i class="fas fa-chart-line feature-icon"></i> <span>SOTA Performance:</span> Comparable to o1/Gemini-2.5-Pro in embodied spatial reasoning tasks</p>
+                <p class="feature-item text-center"><i class="fas fa-brain feature-icon"></i> <span>Emergent Thinking:</span> Exhibits systematic analysis and contextual integration patterns</p>
             </div>
+        </div>
 
-            <!-- 按钮区域 -->
-            <div class="action-buttons">
-                <a href="https://arxiv.org/abs/2504.12680" class="action-button">
-                    <i class="ai ai-arxiv"></i>
-                    <span>arXiv</span>
-                </a>
-                <a href="https://arxiv.org/pdf/2504.12680" class="action-button">
-                    <i class="fas fa-file-pdf"></i>
-                    <span>PDF</span>
-                </a>
-                <a href="https://github.com/EmbodiedCity/Embodied-R.code" class="action-button">
-                    <i class="fab fa-github"></i>
-                    <span>Code</span>
-                </a>
-            </div>
+        <!-- 按钮区域 -->
+        <div class="action-buttons">
+            <a href="https://arxiv.org/abs/2504.12680" class="action-button">
+                <i class="ai ai-arxiv"></i>
+                <span>arXiv</span>
+            </a>
+            <a href="https://arxiv.org/pdf/2504.12680" class="action-button">
+                <i class="fas fa-file-pdf"></i>
+                <span>PDF</span>
+            </a>
+            <a href="https://github.com/EmbodiedCity/Embodied-R.code" class="action-button">
+                <i class="fab fa-github"></i>
+                <span>Code</span>
+            </a>
         </div>
     </header>
 
@@ -1129,6 +1198,8 @@
         </div>
 
         <h2 id="task" class="section-title text-center fade-in">Task of Embodied Reasoning</h2>
+        <img src="source/task.png" alt="Task of Embodied Reasoning" class="fade-in" style="width: 85%; max-width: 1084px; height: auto; object-fit: contain;">
+
         <p class="fade-in">
             We focus on embodied spatial reasoning tasks, which require models to understand and reason about spatial relationships from sequential visual observations. We use two main datasets: VSI-Bench (indoor scenarios) and UrbanVideo-Bench (outdoor scenarios). These tasks present the following challenges:
         </p>
@@ -1151,7 +1222,7 @@
                     <!-- 视频部分 -->
                     <div class="video-aspect-wrapper">
                         <video controls class="shadow-lg">
-                            <source src="source\1.mp4" type="video/mp4">
+                            <source src="source/videos/13.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1178,7 +1249,7 @@
                     <!-- 视频部分 -->
                     <div class="video-aspect-wrapper">
                         <video controls class="shadow-lg">
-                            <source src="source\2.mp4" type="video/mp4">
+                            <source src="source/videos/14.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -1482,9 +1553,20 @@
             const totalHeight = document.body.scrollHeight - window.innerHeight;
             const progress = (window.scrollY / totalHeight) * 100;
             progressBar.style.width = `${progress}%`;
+
+            // 控制导航栏显示
+            const navbar = document.querySelector('.navbar');
+            const coverHeader = document.querySelector('.cover-header');
+            const coverHeight = coverHeader.offsetHeight;
+
+            if (window.scrollY > coverHeight - 100) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
         }
 
-        // 监听滚动事件以更新进度条
+        // 监听滚动事件以更新进度条和导航栏显示
         window.addEventListener('scroll', updateReadingProgress);
     </script>
 
