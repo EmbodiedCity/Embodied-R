@@ -446,7 +446,8 @@
         }
 
         .method-section img,
-        .experiment-section img {
+        .experiment-section img,
+        .further-exploration-section img {
             max-width: 85%;
             margin: 2.5rem auto;
         }
@@ -1202,7 +1203,7 @@
             <p class="fade-in">
                 Our proposed Embodied-R is a collaborative framework combining large-scale Vision-Language Models (VLMs) for perception and small-scale Language Models (LMs) for reasoning. By decoupling perception and reasoning, we can leverage the perceptual capabilities of large-scale VLMs while training resource-efficient small-scale LMs to activate embodied reasoning through reinforcement learning.
             </p>
-            <img src="source/3.jpg" alt="Method Overview">
+            <img src="source/3.jpg" alt="Method Overview" class="fade-in" style="width: 85%; max-width: 1084px; height: auto; object-fit: contain;">
             <h3 class="subsection-title fade-in">Large-Scale VLM-based Perception</h3>
             <p class="fade-in">
                 <strong>Key-Frame Extractor</strong>: As the agent moves continuously in space, high sampling frequencies result in significant overlap between consecutive frames. On one hand, the VLM relies on changes in static objects within the environment across frames to infer the agent's pose variation. On the other hand, excessive overlap between frames leads to increased inference costs for both the VLM and LLM. To address this, we designed a key-frame extractor tailored to the characteristics of embodied videos, selecting key frames that retain overlap while ensuring sufficient information gain between them.
@@ -1241,7 +1242,7 @@
                 Experimental results demonstrate that our proposed reasoning-enhanced model outperforms proprietary models by over 10%+ and SFT-trained models by 5%+.
             </p>
 
-            <img src="source\Overall_Performance.png" alt="Overall Performance">
+            <img src="source/Overall_Performance.png" alt="Overall Performance" class="fade-in" style="width: 85%; max-width: 1084px; height: auto; object-fit: contain;">
 
             <h3 class="subsection-title fade-in">RQ2:Has Embodied-R Learned Slow-Thinking?</h3>
             <p class="fade-in">
@@ -1253,7 +1254,7 @@
                 <strong>3. Contextual Integration</strong>: Integrating semantic information across different frames to perform comprehensive analysis.<br>
                 <strong>4. Think-Answer Format</strong>: Strictly adhering to a structured process of reasoning before outputting the final answer.
             </p>
-            <img src="source\case.jpg" alt="case">
+            <img src="source/case.jpg" alt="case" class="fade-in" style="width: 85%; max-width: 1084px; height: auto; object-fit: contain;">
 
             <h3 class="subsection-title fade-in">RQ3:What are the contributions of each module?</h3>
             <p class="fade-in">
@@ -1270,10 +1271,12 @@
         </div>
 
         <h2 id="further-exploration" class="section-title text-center fade-in">Further Exploration</h2>
+        <img src="source/4.png" alt="Relationship between Inference Ability, Aha Moments, and Response Length" class="fade-in" style="width: 85%; max-width: 1084px; height: auto; object-fit: contain;">
+
         <div class="further-exploration-section">
             <h3 class="subsection-title fade-in">RQ4:What is the Relationship Between Inference Ability, Aha Moments, and Response Length?</h3>
             <p class="fade-in">
-                The GRPO training process involves tracking the validation set's accuracy reward, format reward, ratio of logical consistency reward to accuracy reward, and the response length. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference ability and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks, such as image-based reasoning.
+                The GRPO training process involves tracking the validation set's accuracy reward, format reward, ratio of logical consistency reward to accuracy reward, and the response length. Notably, existing pure-text-based reproductions of DeepSeek-R-Zero models identify inference length and the "aha moment" as key indicators of emergent reasoning capabilities. However, such phenomena are rarely observed in other multimodal reasoning tasks, such as image-based reasoning.
             </p>
             <p class="fade-in">
                 This leads us to hypothesize that response length is strongly influenced by the nature of the question itself. For instance, mathematical problems often require multi-step calculations, where increased reasoning length tends to correlate positively with reasoning ability. In contrast, for multimodal reasoning tasks like embodied spatial reasoning, the LM model training process converges toward an optimal range of text output distributions. Concise reasoning patterns may facilitate embodied spatial reasoning. This highlights the versatility of RL-based post-training method, demonstrating the ability to benefit a wide range of reasoning tasks.
